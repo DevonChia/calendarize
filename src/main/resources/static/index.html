@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Calendarize!</title>
+</head>
+<body>
+    <h1>HELLO HI!</h1>
+    <div>
+        <button class="tester-btn">Click tester</button>
+        <div class="tester"></div>
+    </div>
+</body>
+<script>
+    async function loadData() {
+        try {
+            const response = await fetch('/getdata')
+            console.log(response)
+
+            const dataJson = await response.json()
+            console.log(dataJson)
+
+            return dataJson;
+        } catch (error) {
+            console.log("caught error222 :: " + error.message)
+        }
+    }
+    
+    document.querySelector('.tester-btn').addEventListener('click', async ()=>{
+        
+        console.log('loading init data..')
+        data = await loadData()
+        console.log(data);
+        document.querySelector('.tester').innerHTML= data.vals;
+
+    })
+
+
+
+
+
+</script>
+</html>
