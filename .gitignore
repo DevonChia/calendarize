@@ -6,6 +6,11 @@ build/
 !**/src/test/**/build/
 src/main/resources/application.properties
 .env
+frontend/node_modules/
+
+### Vite Generated bundle assets ###
+/src/main/resources/static/bundle.js
+/src/main/resources/static/bundle.css
 
 ### Spring Tool Suite (STS) ###
 .apt_generated
