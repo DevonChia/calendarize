@@ -4,10 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to Calendarize!</title>
-    <link rel="stylesheet" href="bundle.css">
 </head>
 <body>
-    <h1>HELLO HI!</h1>
+    <div class="header-bar">
+        <h1>HELLO HI!</h1>
+        <div class="user-login">
+            <button class="btn-user-login">Login</button>
+        </div>
+    </div>
     <div>
         <button class="tester-btn">Click tester</button>
         <div class="ec-container">
@@ -15,8 +19,8 @@
         </div>
     </div>
 </body>
-<script src="bundle.js"></script>
-<script src="index.js"></script>
+<link rel="stylesheet" href="assets/main.css">
+<script src="assets/main.js"></script>
 <script>
     async function loadData() {
         try {
@@ -40,10 +44,6 @@
         document.querySelector('.tester').innerHTML= data.vals;
 
     })
-
-
-
-
 
 </script>
 </html>

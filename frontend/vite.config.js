@@ -4,13 +4,17 @@ import path from 'path';
 export default defineConfig({
   root: './',
   build: {
-    outDir: path.resolve(__dirname, '../src/main/resources/static'),
+    outDir: path.resolve(__dirname, '../src/main/resources/static/assets'),
     emptyOutDir: false,
     rollupOptions: {
-      input: './bundle.js',
+      input : {
+        main: 'main.js',
+        'user-dashboard': 'user-dashboard.js',
+      },
       output: {
-        entryFileNames: 'bundle.js',
-        assetFileNames: 'bundle.css'
+        entryFileNames: '[name].js',
+        chunkFileNames: '[name].js',
+        assetFileNames: '[name].[ext]'
       }
     }
   }

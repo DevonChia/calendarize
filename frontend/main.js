@@ -15,5 +15,6 @@ let ec = createCalendar(
         ]
     }
 );
+
 // If you later need to destroy the calendar then use
 // destroyCalendar(ec);
