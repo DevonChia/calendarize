@@ -10,7 +10,11 @@ function gmailLogin() {
     const responseType = 'code';
     const accessType = 'offline';
     const prompt = 'consent';
-    const deviceId = genDeviceId()
+
+    const stateData = {
+        device_id: genDeviceId(),
+        user_id: 'testuser123'
+    }
 
     const oauthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}` +
                      `&redirect_uri=${redirectURI}` +
@@ -18,7 +22,7 @@ function gmailLogin() {
                      `&scope=${encodeURIComponent(scope)}` +
                      `&access_type=${accessType}` +
                      `&prompt=${prompt}` +
-                     `&state=${deviceId}`;
+                     `&state=${encodeURIComponent(JSON.stringify(stateData))}`;
 
     window.location.href = oauthUrl;
 }
