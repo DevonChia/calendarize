@@ -5,37 +5,43 @@ const redirectURI = import.meta.env.VITE_GOOGLE_CALENDAR_API_REDIRECT_URI;
 checkFailedLogin()
 const deviceId = getDeviceId();
 if (deviceId) {
-    isProviderLoggedIn("google", deviceId)
+    checkProviderStatus(deviceId)
 }
 
-document.querySelector('.gmail-login').onclick = () => {
-    gmailLogin()
-}
-
-function isProviderLoggedIn(provider, deviceId){
-    if (deviceId === null) return false
-
-    console.log(deviceId)
-    const userId = "testuser123";
-
-    fetch('api/verify-login',  {
-        method : 'POST',
-        headers : {
-            'Content-type' : 'application/json'
-        },
-        body : JSON.stringify({
-            'user-id' : userId,
-            'device-id' : deviceId,
-            'provider' : provider
-        })
+async function checkProviderStatus(deviceId) {
+    let providerElem = document.querySelector(".gmail-login-status")
+    const loggedIn = await isProviderLoggedIn("google", deviceId)
+    if (loggedIn) {
+        providerElem.innerHTML = `<button class="gmail-logout">Log Out</button>`
+    } else {
+        providerElem.innerHTML = `<button class="gmail-login">Login</button>`
+    }
+    document.querySelector('.gmail-login')?.addEventListener("click", () => {
+        gmailLogin();
     })
-        .then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => console.error(error))
+}
 
-
-
-
+async function isProviderLoggedIn(provider, deviceId){
+    if (deviceId === null) return false
+    const userId = "testuser123";
+    try {
+        const res = await fetch('api/verify-login',  {
+            method : 'POST',
+            headers : {
+                'Content-type' : 'application/json'
+            },
+            body : JSON.stringify({
+                'user-id' : userId,
+                'device-id' : deviceId,
+                'provider' : provider
+            })
+        })
+        const data = await res.json();
+        return data["logged_in"]
+    } catch (err) {
+        console.error(err)
+        return false
+    }
 }
 
 function gmailLogin() {

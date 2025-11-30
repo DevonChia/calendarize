@@ -34,7 +34,7 @@ public class ProviderVerificationService {
         LocalDateTime accessTokenExpiry = ((Timestamp)data.get("access_token_expiry")).toLocalDateTime();
         if (accessTokenExpiry.isBefore(LocalDateTime.now())) {
             LocalDateTime refreshTokenExpiry = ((Timestamp)data.get("refresh_token_expiry")).toLocalDateTime();
-            if (!refreshTokenExpiry.isBefore(LocalDateTime.now())) {
+            if (refreshTokenExpiry.isBefore(LocalDateTime.now())) {
                 return false;
             }
             byte[] encryptedRefreshToken = (byte[])data.get("refresh_token");
