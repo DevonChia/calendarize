@@ -8,11 +8,11 @@
 <body>
     <div class="header-bar">
         <h1>HELLO HI!</h1>
-        <div class="user-login">
-            <button class="btn-user-login">Login</button>
-        </div>
+        <h2 class="no-provider-login" style="display: none;">
+            <a href="./user-dashboard.html">Log in to your email providers to get started!</a>
+        </h2>
     </div>
-    <div>
+    <div class="main-content" style="display: none;">
         <button class="tester-btn">Click tester</button>
         <div class="ec-container">
             <div id="ec"></div>
@@ -20,7 +20,7 @@
     </div>
 </body>
 <link rel="stylesheet" href="assets/main.css">
-<script src="assets/main.js"></script>
+<script type="module" src="assets/main.js"></script>
 <script>
     async function loadData() {
         try {

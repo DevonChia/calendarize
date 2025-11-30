@@ -1,12 +1,10 @@
-import { genDeviceId, getDeviceId } from "./common";
+import { genDeviceId, getDeviceId, isProviderLoggedIn } from "./common";
 const clientId = import.meta.env.VITE_GOOGLE_CALENDAR_API_CLIENT_ID;
 const redirectURI = import.meta.env.VITE_GOOGLE_CALENDAR_API_REDIRECT_URI;
 
 checkFailedLogin()
 const deviceId = getDeviceId();
-if (deviceId) {
-    checkProviderStatus(deviceId)
-}
+checkProviderStatus(deviceId)
 
 async function checkProviderStatus(deviceId) {
     let providerElem = document.querySelector(".gmail-login-status")
@@ -19,29 +17,6 @@ async function checkProviderStatus(deviceId) {
     document.querySelector('.gmail-login')?.addEventListener("click", () => {
         gmailLogin();
     })
-}
-
-async function isProviderLoggedIn(provider, deviceId){
-    if (deviceId === null) return false
-    const userId = "testuser123";
-    try {
-        const res = await fetch('api/verify-login',  {
-            method : 'POST',
-            headers : {
-                'Content-type' : 'application/json'
-            },
-            body : JSON.stringify({
-                'user-id' : userId,
-                'device-id' : deviceId,
-                'provider' : provider
-            })
-        })
-        const data = await res.json();
-        return data["logged_in"]
-    } catch (err) {
-        console.error(err)
-        return false
-    }
 }
 
 function gmailLogin() {
