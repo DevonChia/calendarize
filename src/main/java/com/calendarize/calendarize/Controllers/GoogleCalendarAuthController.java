@@ -17,10 +17,10 @@ import jakarta.servlet.http.HttpServletResponse;
 @RestController
 public class GoogleCalendarAuthController {
     private static final Logger logger = LoggerFactory.getLogger(CalendarController.class);
-    private final GoogleCalendarAuthService authService;
+    private final GoogleCalendarAuthService googleCalendarAuthService;
 
-    public GoogleCalendarAuthController(GoogleCalendarAuthService authService) {
-        this.authService = authService;
+    public GoogleCalendarAuthController(GoogleCalendarAuthService googleCalendarAuthService) {
+        this.googleCalendarAuthService = googleCalendarAuthService;
     }
 
     @GetMapping("/oauth2/googleauth")
@@ -29,11 +29,11 @@ public class GoogleCalendarAuthController {
         Map<String, String> jsonState = mapper.readValue(stateData, Map.class);
 
         try {
-            authService.getTokens(code, jsonState.get("device_id"), jsonState.get("user_id"));
+            googleCalendarAuthService.getTokens(code, jsonState.get("device_id"), jsonState.get("user_id"), jsonState.get("provider"));
             httpResponse.sendRedirect("http://localhost:8080/user-dashboard.html?login_status=ok");
 
         } catch (Exception e) {
-            logger.error("Google Calendar API Authentication failed. Error: " + e);
+            logger.error("[GoogleCalendarAuthController] Google Calendar API Authentication failed. Error: " + e);
             httpResponse.sendRedirect("http://localhost:8080/user-dashboard.html?login_status=failed");
         }
     }
