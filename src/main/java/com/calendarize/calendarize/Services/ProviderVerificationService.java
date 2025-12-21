@@ -32,7 +32,7 @@ public class ProviderVerificationService {
         }
 
         LocalDateTime accessTokenExpiry = ((Timestamp)data.get("access_token_expiry")).toLocalDateTime();
-        if (accessTokenExpiry.isBefore(LocalDateTime.now())) {
+        if (accessTokenExpiry.isBefore(LocalDateTime.now().minusMinutes(5))) { //this 5 minutes allowance is for after this login check and client side will call callback server side again to get data using access token 
             LocalDateTime refreshTokenExpiry = ((Timestamp)data.get("refresh_token_expiry")).toLocalDateTime();
             if (refreshTokenExpiry.isBefore(LocalDateTime.now())) {
                 return false;

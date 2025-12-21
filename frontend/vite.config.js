@@ -8,7 +8,7 @@ export default defineConfig({
     emptyOutDir: false,
     rollupOptions: {
       input : {
-        main: 'main.js',
+        'home': 'home.js',
         'user-dashboard': 'user-dashboard.js',
       },
       output: {
