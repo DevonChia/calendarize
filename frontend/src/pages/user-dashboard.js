@@ -1,10 +1,43 @@
-import { genDeviceId, getDeviceId, isProviderLoggedIn } from "./common";
-const clientId = import.meta.env.VITE_GOOGLE_CALENDAR_API_CLIENT_ID;
-const redirectURI = import.meta.env.VITE_GOOGLE_CALENDAR_API_REDIRECT_URI;
+import { routeTo } from "../main";
+import { genDeviceId, getDeviceId, isProviderLoggedIn } from "../utils/common";
+export function renderDashboard() {
+    document.getElementById('app').innerHTML = `
+        <a href="/" id="homeRoute" >Home Page</a>
+        <div class="container">
+            <div class="name">
+                Name: 
+                <span>Devon</span>
+            </div>
+            <hr>
+            <div class="container-data-sync">
+                <div class="gmail-data">
+                    Gmail
+                    <span class="gmail-login-status"><i>Loading...</i></span>
+                </div>
+                <div class="outlook-data">
+                    Outlook
+                    <span><button class="outlook-login">Login</button></span>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="global-modal" style="display: none;">
+            <div class="global-modal-body"></div>
+        </div>
+    `
 
-checkFailedLogin()
-const deviceId = getDeviceId();
-checkProviderStatus(deviceId)
+    document.getElementById("homeRoute").addEventListener('click', e => {
+        e.preventDefault()
+        routeTo("/")
+    })
+
+    const clientId = import.meta.env.VITE_GOOGLE_CALENDAR_API_CLIENT_ID;
+    const redirectURI = import.meta.env.VITE_GOOGLE_CALENDAR_API_REDIRECT_URI;
+    
+    checkFailedLogin()
+    const deviceId = getDeviceId();
+    checkProviderStatus(deviceId)
+}
 
 async function checkProviderStatus(deviceId) {
     let providerElem = document.querySelector(".gmail-login-status")
@@ -54,4 +87,3 @@ function checkFailedLogin() {
         modal.style.display = 'block';
     }
 }
-

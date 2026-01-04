@@ -63,13 +63,12 @@ public class CalendarDataService {
     public List<Map<String, Object>> getGoogleCalendarData(String userId, String deviceId)
     {
         try {
-            System.out.println("here inside get google data service");
             byte[] encryptedAccessToken = calendarDataRepository.getAccessToken("google", userId, deviceId);
             String accessToken = EncryptionUtil.decrypt(encryptedAccessToken, secret);
-            System.out.println("got access token :: " + accessToken);
 
             Calendar service = initCalendarBuilder(accessToken);
             DateTime now = new DateTime(System.currentTimeMillis());
+            System.out.println("now dtm :: " + now);
 
             Events events = service.events().list("primary") //TODO : set to primary for now
                 // .setMaxResults(10)
@@ -81,6 +80,9 @@ public class CalendarDataService {
 
             List<Map<String, Object>> eventList = new ArrayList<>();
             for (Event event : events.getItems()) {
+                System.out.println("==== event :: ");
+                System.out.println(event);
+
                 Map<String, Object> data = new HashMap<>();
 
                 DateTime start = event.getStart().getDateTime();
@@ -101,6 +103,7 @@ public class CalendarDataService {
                     endDate = Instant.ofEpochMilli(end.getValue())
                                                     .atZone(ZoneId.of("Asia/Singapore"))
                                                     .format(DateTimeFormatter.ISO_LOCAL_DATE);
+
                 } else {
                     endDate = event.getEnd().getDate().toString();
                 }
